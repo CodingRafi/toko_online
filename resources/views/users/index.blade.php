@@ -54,12 +54,16 @@
         <!-- / Content -->
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade @error('name') show @enderror @error('email') show @enderror @error('password') show @enderror"
+            id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            @error('name') style="display: block;background: rgba(69,90,100, .5);" @enderror
+            @error('email') style="display: block;background: rgba(69,90,100, .5);" @enderror
+            @error('password') style="display: block;background: rgba(69,90,100, .5);" @enderror>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="{{ route('users.store') }}" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -68,15 +72,27 @@
                             <div class="mb-3 row">
                                 <label for="html5-text-input" class="col-md-3 col-form-label">Name</label>
                                 <div class="col-md-9">
-                                    <input class="form-control" type="text" value="" id="html5-text-input"
-                                        placeholder="Name User" name="name" />
+                                    <input class="form-control @error('name') is-invalid @enderror" type="text" value=""
+                                        id="html5-text-input" placeholder="Name User" name="name"
+                                        value="{{ old('name') }}" />
+                                    @error('name')
+                                        <div class="invalid-feedback d-block">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="html5-email-input" class="col-md-3 col-form-label">Email User</label>
                                 <div class="col-md-9">
-                                    <input class="form-control" type="email" placeholder="john@example.com"
-                                        id="html5-email-input" name="email" />
+                                    <input class="form-control @error('email') is-invalid @enderror" type="email"
+                                        placeholder="john@example.com" id="html5-email-input" name="email"
+                                        value="{{ old('email') }}" />
+                                    @error('email')
+                                        <div class="invalid-feedback d-block">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -84,20 +100,22 @@
                                 <div class="col-md-9">
                                     <input class="form-control" type="password" placeholder="password"
                                         id="html5-password-input" name="password" />
+                                        <div class="invalid-feedback d-block" style="color: #566A7F;">
+                                            Minimal 8 Karakter
+                                        </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="exampleDataList" class="col-form-label col-md-3">Role</label>
                                 <div class="col-md-9">
-                                    <input class="form-control" list="datalistOptions" id="exampleDataList"
-                                        placeholder="Role" name="role" />
-                                    <datalist id="datalistOptions">
+                                    
+                                    <select name="roles" id="datalistOptions" class="form-select">
                                         @foreach ($roles as $role)
                                             @if ($role !== 'admin')
-                                            <option value="{{ $role }}"></option>
+                                                <option value="{{ $role }}"></option>
                                             @endif
                                         @endforeach
-                                    </datalist>
+                                    </select>
                                 </div>
                             </div>
                         </div>
