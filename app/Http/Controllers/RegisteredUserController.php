@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use DB;
 
 class RegisteredUserController extends Controller
 {
@@ -15,8 +17,9 @@ class RegisteredUserController extends Controller
      */
     public function index()
     {
+        $users = User::all();
         $roles = Role::pluck('name','name')->all();
-        return view('users.index', compact('roles'));
+        return view('users.index', compact('roles', 'users'));
     }
 
     /**
@@ -35,10 +38,18 @@ class RegisteredUserController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|max:255',
             'roles' => 'required'
         ]);
+
+        $validatedData['password'] = Hash::make($request->password);
+
+        $user = User::create($validatedData);
+        $user->assignRole($request->roles);
+    
+        return redirect()->route('users.index')
+                        ->with('success','User created successfully');
     }
 
     /**
@@ -60,7 +71,9 @@ class RegisteredUserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles;
+        return view('users.update',compact('user','roles','userRole'));
     }
 
     /**
@@ -72,7 +85,21 @@ class RegisteredUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'roles' => 'required'
+        ]);
+
+        $validatedData['password'] = $user->password;
+
+        $user->update($validatedData);
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+    
+        $user->assignRole($request->roles);
+    
+        return redirect()->route('users.index')
+                        ->with('success','User updated successfully');
     }
 
     /**
@@ -83,6 +110,8 @@ class RegisteredUserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index')
+        ->with('success','User deleted successfully');
     }
 }
