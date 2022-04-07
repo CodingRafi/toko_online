@@ -44,11 +44,11 @@
                                 <div class="mb-3 row">
                                     <label for="exampleDataList" class="col-form-label col-md-2">Role</label>
                                     <div class="col-md-10">
-
+                                        
                                         <select name="roles" id="datalistOptions" class="form-select">
                                             @foreach ($roles as $role)
                                                 @if ($role !== 'admin')
-                                                    @if ($role == $user->roles)
+                                                    @if ($role == $userRole[0]['name'])
                                                         <option value="{{ $role }}" selected>{{ $role }}
                                                         </option>
                                                     @else
@@ -74,3 +74,4 @@
         <div class="content-backdrop fade"></div>
     </div>
 @endsection
+

@@ -10,6 +10,15 @@ use DB;
 
 class RegisteredUserController extends Controller
 {
+
+    function __construct()
+    {
+         $this->middleware('permission:view_users|add_users|edit_users|delete_users', ['only' => ['index','store']]);
+         $this->middleware('permission:add_users', ['only' => ['create','store']]);
+         $this->middleware('permission:edit_users', ['only' => ['edit','update']]);
+         $this->middleware('permission:delete_users', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

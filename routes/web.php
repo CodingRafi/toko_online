@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
-    Route::resource('/users', RegisteredUserController::class);
+    Route::resource('users', RegisteredUserController::class);
 });
 
 require __DIR__.'/auth.php';
