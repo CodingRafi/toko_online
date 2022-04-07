@@ -80,51 +80,6 @@
 
                     </div>
                 </div>
-                {{-- <div class="table-responsive" style="height: 65vh">
-                    <table class="table" style="text-align: center">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name Role</th>
-                                @can('edit_roles', 'delete_roles')
-                                <th>Actions</th>
-                                @endcan
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($roles as $role)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $role->name }}</td>
-
-                                    @can('edit_roles', 'delete_roles')
-                                        <td>
-                                            @can('edit_roles')
-                                                @if ($role->name == 'admin')
-                                                    <a href="{{ route('roles.edit', $role->id) }}"
-                                                        class="btn btn-warning disabled">Update</a>
-                                                @else
-                                                    <a href="{{ route('roles.edit', $role->id) }}"
-                                                        class="btn btn-warning">Update</a>
-                                                @endif
-                                            @endcan
-                                            @can('delete_roles')
-                                                <form action="{{ route('roles.destroy', $role->id) }}" method="post"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')"
-                                                        {{ $role->name == 'admin' ? 'disabled' : '' }}>Delete</button>
-                                                </form>
-                                            @endcan
-                                        </td>
-                                    @endcan
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> --}}
             </div>
 
         </div>
