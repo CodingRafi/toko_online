@@ -13,7 +13,7 @@
                             <h5 class="card-header">Users</h5>
                         </div>
                         <div class="col-md-2 d-flex justify-center align-items-center">
-                            @can('create_users')
+                            @can('add_users')
                                 <button type="button" class="btn btn-primary tombol-buat-user" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     Create User
@@ -76,7 +76,7 @@
 
         </div>
         <!-- / Content -->
-        @can('create_users')
+        @can('add_users')
             <!-- Modal -->
             <div class="modalkey modal fade @error('name') show @enderror @error('email') show @enderror @error('password') show @enderror"
                 id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
